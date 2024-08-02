@@ -6,7 +6,7 @@ import seaborn as sns
 # Load data
 @st.cache
 def load_data():
-    url = 'https://raw.githubusercontent.com/KANYIANALYST/BankMarketingapp/main/bank-full.csv'
+    url = 'https://raw.githubusercontent.com/KANYIANALYST/BankMarketingapp/main/bank-full-encoded.csv'
     data = pd.read_csv(url)
     return data
 
