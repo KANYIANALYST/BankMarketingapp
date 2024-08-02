@@ -1,10 +1,7 @@
-# Navigate to your repository
-cd BankMarketingapp
-
-# Create the app.py file (example content)
-echo "
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Load data
 @st.cache
@@ -16,10 +13,11 @@ def load_data():
 data = load_data()
 
 st.title('Bank Marketing Campaign Analysis')
+st.write('## Data Overview')
 st.write(data.head())
-" > app.py
 
-# Add, commit, and push the file
-git add app.py
-git commit -m "Add Streamlit app script"
-git push
+# Feature Importance Visualization
+st.write('## Feature Importance')
+fig, ax = plt.subplots()
+sns.barplot(y=data.columns[:-1], x=best_rf.feature_importances_, ax=ax)
+st.pyplot(fig)
