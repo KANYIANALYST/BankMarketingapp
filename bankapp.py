@@ -18,7 +18,7 @@ st.write(data.head())
 
 # Feature Importance Visualization
 # Uncomment the below lines after defining best_rf in your code
-# st.write('## Feature Importance')
-# fig, ax = plt.subplots()
-# sns.barplot(y=data.columns[:-1], x=best_rf.feature_importances_, ax=ax)
-# st.pyplot(fig)
+st.write('## Feature Importance')
+fig, ax = plt.subplots()
+sns.barplot(y=data.columns[:-1], x=best_rf.feature_importances_, ax=ax)
+st.pyplot(fig)
