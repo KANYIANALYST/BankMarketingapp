@@ -6,7 +6,7 @@ import seaborn as sns
 # Load data
 @st.cache
 def load_data():
-    url = 'https://raw.githubusercontent.com/KANYIANALYST/BankMarketingapp/main/Copy_of_Bank_Marketing_Prediction.ipynb'
+    url = 'https://raw.githubusercontent.com/KANYIANALYST/BankMarketingapp/main/bank-full.csv'
     data = pd.read_csv(url)
     return data
 
@@ -17,7 +17,8 @@ st.write('## Data Overview')
 st.write(data.head())
 
 # Feature Importance Visualization
-st.write('## Feature Importance')
-fig, ax = plt.subplots()
-sns.barplot(y=data.columns[:-1], x=best_rf.feature_importances_, ax=ax)
-st.pyplot(fig)
+# Uncomment the below lines after defining best_rf in your code
+# st.write('## Feature Importance')
+# fig, ax = plt.subplots()
+# sns.barplot(y=data.columns[:-1], x=best_rf.feature_importances_, ax=ax)
+# st.pyplot(fig)
