@@ -12,6 +12,15 @@ def load_data():
 
 data = load_data()
 
+# Load model
+@st.cache(allow_output_mutation=True)
+def load_model():
+    url = 'https://github.com/KANYIANALYST/BankMarketingapp/raw/main/best_rf_model.pkl'
+    model = joblib.load(urlopen(url))
+    return model
+
+best_rf = load_model()
+
 st.title('Bank Marketing Campaign Analysis')
 st.write('## Data Overview')
 st.write(data.head())
