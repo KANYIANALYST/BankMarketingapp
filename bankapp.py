@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
+import urllib.request
 
 # Load data
 @st.cache
@@ -13,11 +14,12 @@ def load_data():
 
 data = load_data()
 
-## Load model
+# Load model
 @st.cache(allow_output_mutation=True)
 def load_model():
     url = 'https://github.com/KANYIANALYST/BankMarketingapp/raw/main/best_rf_model.pkl'
-    model = joblib.load(urlopen(url))
+    urllib.request.urlretrieve(url, 'best_rf_model.pkl')
+    model = joblib.load('best_rf_model.pkl')
     return model
 
 best_rf = load_model()
