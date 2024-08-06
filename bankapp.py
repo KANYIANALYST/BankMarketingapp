@@ -8,7 +8,7 @@ import urllib.request
 # Load data
 @st.cache
 def load_data():
-    url = 'https://raw.githubusercontent.com/KANYIANALYST/BankMarketingapp/main/bank-full-encoded.csv'
+    url = 'https://raw.githubusercontent.com/KANYIANALYST/BankMarketingapp/main/feature_importance.csv'
     data = pd.read_csv(url)
     return data
 
