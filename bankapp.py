@@ -34,25 +34,15 @@ st.title('Bank Marketing Campaign Analysis')
 st.write('## Data Overview')
 st.write(data.head())
 
-# Get feature names from the dataset and feature importance data
-data_features = list(data.columns[:-1])
-importance_features = list(feature_importance_df['feature'])
+# Ensure the feature importances length matches the number of features
+num_features = len(data.columns) - 1  # Exclude the target variable column
+feature_importances_length = len(feature_importance_df)
 
-# Check for mismatch
-if len(data_features) != len(importance_features):
-    st.error(f"Mismatch in lengths: Number of features in dataset ({len(data_features)}) does not match length of feature importances ({len(importance_features)}).")
-    
-    # Find and display the extra feature
-    extra_features_in_data = set(data_features) - set(importance_features)
-    extra_features_in_importance = set(importance_features) - set(data_features)
-    
-    if extra_features_in_data:
-        st.write("Extra features in dataset:", extra_features_in_data)
-    if extra_features_in_importance:
-        st.write("Extra features in feature importance:", extra_features_in_importance)
+if num_features != feature_importances_length:
+    st.error(f"Mismatch in lengths: Number of features in dataset ({num_features}) does not match length of feature importances ({feature_importances_length}).")
 else:
     # Feature Importance Visualization
     st.write('## Feature Importance')
     fig, ax = plt.subplots()
-    sns.barplot(y=data_features, x=feature_importance_df['importance'], ax=ax)
+    sns.barplot(y=data.columns[:-1], x=feature_importance_df['importance'], ax=ax)
     st.pyplot(fig)
