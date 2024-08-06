@@ -36,7 +36,7 @@ st.write(data.head())
 
 # Exclude the target variable and Predicted Probability from the dataset columns
 target_variable = 'y'  # Replace with the actual name of your target variable
-excluded_columns = ['target_variable', 'Predicted Probability']  # Add any other columns to be excluded
+excluded_columns = ['y', 'Predicted Probability']  # Add any other columns to be excluded
 data_features = [col for col in data.columns if col not in excluded_columns]
 
 # Debugging output
