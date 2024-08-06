@@ -34,10 +34,10 @@ st.title('Bank Marketing Campaign Analysis')
 st.write('## Data Overview')
 st.write(data.head())
 
-# Exclude the target variable from the dataset columns
-target_variable = 'Predicted Probability'  # Replace with the actual name of your target variable
-
-data_features = [col for col in data.columns if col != target_variable]
+# Exclude the target variable and Predicted Probability from the dataset columns
+target_variable = 'y'  # Replace with the actual name of your target variable
+excluded_columns = ['target', 'Predicted Probability']  # Add any other columns to be excluded
+data_features = [col for col in data.columns if col not in excluded_columns]
 
 # Debugging output
 st.write('### Columns in the dataset:')
