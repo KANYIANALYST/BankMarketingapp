@@ -35,8 +35,18 @@ st.write('## Data Overview')
 st.write(data.head())
 
 # Exclude the target variable from the dataset columns
-target_variable = 'y'  # Replace with the actual name of your target variable
+target_variable = 'target'  # Replace with the actual name of your target variable
 data_features = [col for col in data.columns if col != target_variable]
+
+# Debugging output
+st.write('### Columns in the dataset:')
+st.write(data_features)
+
+st.write('### Feature importances length:')
+st.write(len(feature_importance_df))
+
+st.write('### Feature importances:')
+st.write(feature_importance_df)
 
 # Check for mismatch
 if len(data_features) != len(feature_importance_df):
