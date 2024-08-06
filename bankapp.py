@@ -35,7 +35,7 @@ st.write('## Data Overview')
 st.write(data.head())
 
 # Exclude the target variable from the dataset columns
-target_variable = 'target'  # Replace with the actual name of your target variable
+target_variable = 'y'  # Replace with the actual name of your target variable
 data_features = [col for col in data.columns if col != target_variable]
 
 # Debugging output
