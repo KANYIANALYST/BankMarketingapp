@@ -22,14 +22,20 @@ def load_model():
     model = joblib.load('best_rf_model.pkl')
     return model
 
-best_rf = load_model()
+try:
+    best_rf = load_model()
+except Exception as e:
+    st.error(f"Failed to load the model: {e}")
 
 st.title('Bank Marketing Campaign Analysis')
 st.write('## Data Overview')
 st.write(data.head())
 
-# Feature Importance Visualization
-st.write('## Feature Importance')
-fig, ax = plt.subplots()
-sns.barplot(y=data.columns[:-1], x=best_rf.feature_importances_, ax=ax)
-st.pyplot(fig)
+if 'best_rf' in locals():
+    # Feature Importance Visualization
+    st.write('## Feature Importance')
+    fig, ax = plt.subplots()
+    sns.barplot(y=data.columns[:-1], x=best_rf.feature_importances_, ax=ax)
+    st.pyplot(fig)
+else:
+    st.write("Model could not be loaded.")
