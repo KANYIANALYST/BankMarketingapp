@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
+from urllib.request import urlopen
+
 
 # Load data
 @st.cache
