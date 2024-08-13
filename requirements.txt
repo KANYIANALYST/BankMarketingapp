@@ -1,5 +1,9 @@
-pandas
-matplotlib
-seaborn
-joblib
+streamlit
 scikit-learn
+numpy
+pandas
+joblib
+matplotlib
+plotly
+statsmodels
+seaborn
