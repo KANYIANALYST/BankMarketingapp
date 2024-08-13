@@ -6,8 +6,13 @@ import joblib
 from urllib.request import urlopen
 
 
-# Load the trained model
-model = joblib.load('bank_marketing_model.pkl')
+
+# Load model
+@st.cache
+def load_model():
+    url = 'https://raw.githubusercontent.com/KANYIANALYST/BankMarketingapp/main/best_rf_model.pkl'
+    model = joblib.load(url)
+    return model
 
 # Create input fields
 st.title("Bank Marketing Campaign Prediction")
