@@ -6,7 +6,7 @@ import joblib
 from urllib.request import urlopen
 
 # Load model
-@st.cache_data
+@st.cache_data 
 def load_model():
     url = 'https://github.com/KANYIANALYST/BankMarketingapp/raw/main/best_rf_model.pkl'
     model = joblib.load(urlopen(url))
