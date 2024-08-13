@@ -1,17 +1,16 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 import joblib
-from urllib.request import urlopen
-
 
 # Load model
-@st.cache
+@st.cache_data
 def load_model():
-    url = 'https://raw.githubusercontent.com/KANYIANALYST/BankMarketingapp/main/best_rf_model.pkl'
-    model = joblib.load(url)
+    url = 'https://github.com/KANYIANALYST/BankMarketingapp/raw/main/best_rf_model.pkl'
+    model = joblib.load(urlopen(url))
     return model
+
+# Load the model
+model = load_model()
 
 # Create input fields
 st.title("Bank Marketing Campaign Prediction")
