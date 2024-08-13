@@ -34,7 +34,7 @@ fig, ax = plt.subplots()
 # Exclude the target variable and "Predicted Probability"
 #data_features = data.drop(columns=['y', 'Predicted Probability']).columns
 
-sns.barplot(y=data_features, x=best_rf.feature_importances_, ax=ax)
+sns.barplot(y=data, x=best_rf.feature_importances_, ax=ax)
 ax.set_title("Feature Importance")
 ax.set_xlabel("Importance")
 ax.set_ylabel("Features")
