@@ -95,16 +95,3 @@ if st.button("Predict Subscription Likelihood"):
 
 
 
-# Feature importance bar chart
-st.subheader("Feature Importance")
-feature_importances = model.feature_importances_
-features = expected_columns
-sns.barplot(x=feature_importances, y=features)
-plt.title("Feature Importances")
-st.pyplot()
-
-# Prediction summary
-st.subheader("Prediction Summary")
-prediction_counts = pd.Series(predictions).value_counts()
-st.bar_chart(prediction_counts)
-
