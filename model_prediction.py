@@ -6,19 +6,18 @@ from sklearn.preprocessing import LabelEncoder
 
 
 
-# Function to redirect to another app
-def redirect():
-    st.markdown(
-        '<a href="https://www.example.com" target="https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/">View Visualization</a>',
-        unsafe_allow_html=True
-    )
+import streamlit as st
 
 # Main app
 st.title("Main Streamlit App")
-st.write("View Visualization!")
+st.write("Welcome to the main app!")
 
-if st.button("Go to Another App"):
-    redirect()
+if st.button("Go to Bank Marketing App"):
+    st.markdown(
+        '<a href="https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/" target="_blank">Click here to open the Bank Marketing App</a>',
+        unsafe_allow_html=True
+    )
+
 
 
 
