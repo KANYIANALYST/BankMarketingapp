@@ -14,7 +14,7 @@ url = "https://github.com/KANYIANALYST/BankMarketingapp/raw/main/feature_importa
 data = pd.read_csv(url)
 
 # Display the data
-st.write("### Raw Feature Importance Data", data)
+st.write("### Feature Importance Data", data)
 
 # Rename columns if needed
 # Adjust these names based on actual column names in your CSV file
@@ -31,7 +31,7 @@ st.write("### Feature Importance Bar Chart")
 if not data.empty:
     if 'Feature' in data.columns and 'Importance' in data.columns:
         # Plot the data
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(12, 6))
         sns.barplot(x='Importance', y='Feature', data=data, palette='viridis')
         plt.xlabel('Importance')
         plt.ylabel('Feature')
