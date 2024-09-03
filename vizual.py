@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Set the page configuration
-st.set_page_config(page_title="Feature Importance Visualization", layout="wide")
+#st.set_page_config(page_title="Feature Importance Visualization", layout="wide")
 
 # Title of the app
 st.title("Feature Importance Visualization")
