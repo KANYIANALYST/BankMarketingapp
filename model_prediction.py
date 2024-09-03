@@ -12,9 +12,9 @@ import streamlit as st
 st.title("Main Streamlit App")
 st.write("Welcome to the main app!")
 
-if st.button("Go to Bank Marketing App"):
+if st.button("Go to Visualization App"):
     st.markdown(
-        '<a href="https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/" target="_blank">Click here to open the Bank Marketing App</a>',
+        '<a href="https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/" target="_blank">Click here to view visualization</a>',
         unsafe_allow_html=True
     )
 
