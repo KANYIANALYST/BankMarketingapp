@@ -10,13 +10,23 @@ import streamlit as st
 
 # Main app
 st.title("Main Streamlit App")
-st.write("Welcome to the main app!")
+st.write("Welcome to the main app! Choose a link below to visit different apps.")
 
-if st.button("Go to Visualization App"):
-    st.markdown(
-        '<a href="https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/" target="_blank">Click here to view visualization</a>',
-        unsafe_allow_html=True
-    )
+# Define the URLs
+urls = {
+    "VISUALIZATION APP": "https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/",
+    "EDA VIZ": "https://example.com",
+    "FEATURE IMPORTANCE VIZ": "https://another-example.com"
+}
+
+# Create buttons and handle redirection
+for app_name, url in urls.items():
+    if st.button(f"Go to {app_name}"):
+        st.markdown(
+            f'<a href="{url}" target="_blank">Click here to open {app_name}</a>',
+            unsafe_allow_html=True
+        )
+
 
 
 
