@@ -9,13 +9,13 @@ from sklearn.preprocessing import LabelEncoder
 # Function to redirect to another app
 def redirect():
     st.markdown(
-        '<a href="https://www.example.com" target="_blank">Go to Another App</a>',
+        '<a href="https://www.example.com" target="https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/">View Visualization</a>',
         unsafe_allow_html=True
     )
 
 # Main app
 st.title("Main Streamlit App")
-st.write("Welcome to the main app!")
+st.write("View Visualization!")
 
 if st.button("Go to Another App"):
     redirect()
