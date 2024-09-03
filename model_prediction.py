@@ -9,14 +9,13 @@ from sklearn.preprocessing import LabelEncoder
 import streamlit as st
 
 # Main app
-st.title("Main Streamlit App")
-st.write("Welcome to the main app! Choose a link below to visit different apps.")
+# st.title("Main Streamlit App")
+#st.write("Welcome to the main app! Choose a link below to visit different apps.")
 
 # Define the URLs
 urls = {
-    "VISUALIZATION APP": "https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/",
-    "EDA VIZ": "https://example.com",
-    "FEATURE IMPORTANCE VIZ": "https://another-example.com"
+    "Visualization (EDA)": "https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/",
+    "Fture Importance Viz": "https://another-example.com"
 }
 
 # Create buttons and handle redirection
