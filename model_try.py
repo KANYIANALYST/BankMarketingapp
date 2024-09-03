@@ -73,7 +73,10 @@ input_data = pd.DataFrame({
     "loan_yes": [1 if loan_yes == "yes" else 0],
     f"contact_{contact}": [1],
     f"month_{month}": [1],
-    f"poutcome_{poutcome}": [1]
+    f"poutcome_{poutcome}": [1],
+    f"job_{job}": [1],  # One-hot encoding for job
+    f"marital_{marital}": [1],  # One-hot encoding for marital
+    f"education_{education}": [1],  # One-hot encoding for education
 })
 
 # Fill in the missing columns with zeros (because the model expects all possible encoded columns)
@@ -82,7 +85,12 @@ expected_columns = ['age', 'balance', 'day', 'duration', 'campaign', 'pdays', 'p
                     'housing_yes', 'loan_yes', 'contact_telephone', 'contact_unknown', 
                     'month_aug', 'month_dec', 'month_feb', 'month_jan', 'month_jul', 'month_jun', 
                     'month_mar', 'month_may', 'month_nov', 'month_oct', 'month_sep', 
-                    'poutcome_other', 'poutcome_success', 'poutcome_unknown']
+                    'poutcome_other', 'poutcome_success', 'poutcome_unknown',
+                    'job_blue-collar', 'job_entrepreneur', 'job_housemaid', 'job_management', 
+                    'job_retired', 'job_self-employed', 'job_services', 'job_student', 
+                    'job_technician', 'job_unemployed', 'job_unknown', 'marital_married', 
+                    'marital_single', 'education_secondary', 'education_tertiary', 
+                    'education_unknown']
 
 # Add any missing columns with a default value of 0
 for col in expected_columns:
