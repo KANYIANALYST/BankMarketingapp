@@ -14,13 +14,12 @@ def load_model():
 # Load the model
 model = load_model()
 
-# Initialize LabelEncoders (use the same encodings as used during training)
+# Initialize LabelEncoders
 le_job = LabelEncoder()
 le_marital = LabelEncoder()
 le_education = LabelEncoder()
 
-# Fit the LabelEncoders on the original data used for training
-# (In production, this would be saved and loaded instead of refitting)
+# Fit the LabelEncoders (these should be fit on the same data used during training)
 job_labels = ["admin.", "blue-collar", "entrepreneur", "housemaid", "management", "retired", 
               "self-employed", "services", "student", "technician", "unemployed", "unknown"]
 le_job.fit(job_labels)
@@ -80,17 +79,17 @@ input_data = pd.DataFrame({
 })
 
 # Fill in the missing columns with zeros (because the model expects all possible encoded columns)
-expected_columns = ['age', 'balance', 'day', 'duration', 'campaign', 'pdays', 'previous', 
-                    'balance_duration_ratio', 'job', 'marital', 'education', 'default_yes', 
-                    'housing_yes', 'loan_yes', 'contact_telephone', 'contact_unknown', 
-                    'month_aug', 'month_dec', 'month_feb', 'month_jan', 'month_jul', 'month_jun', 
-                    'month_mar', 'month_may', 'month_nov', 'month_oct', 'month_sep', 
-                    'poutcome_other', 'poutcome_success', 'poutcome_unknown',
-                    'job_blue-collar', 'job_entrepreneur', 'job_housemaid', 'job_management', 
-                    'job_retired', 'job_self-employed', 'job_services', 'job_student', 
-                    'job_technician', 'job_unemployed', 'job_unknown', 'marital_married', 
-                    'marital_single', 'education_secondary', 'education_tertiary', 
-                    'education_unknown']
+expected_columns = ['job', 'marital', 'education', 'age', 'balance', 'day', 'duration',
+                    'campaign', 'pdays', 'previous', 'balance_duration_ratio',
+                    'job_blue-collar', 'job_entrepreneur', 'job_housemaid',
+                    'job_management', 'job_retired', 'job_self-employed', 'job_services',
+                    'job_student', 'job_technician', 'job_unemployed', 'job_unknown',
+                    'marital_married', 'marital_single', 'education_secondary',
+                    'education_tertiary', 'education_unknown', 'default_yes', 'housing_yes',
+                    'loan_yes', 'contact_telephone', 'contact_unknown', 'month_aug',
+                    'month_dec', 'month_feb', 'month_jan', 'month_jul', 'month_jun',
+                    'month_mar', 'month_may', 'month_nov', 'month_oct', 'month_sep',
+                    'poutcome_other', 'poutcome_success', 'poutcome_unknown']
 
 # Add any missing columns with a default value of 0
 for col in expected_columns:
