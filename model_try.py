@@ -1,8 +1,10 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import joblib
 from urllib.request import urlopen
-from sklearn.preprocessing import LabelEncoder
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Load model
 @st.cache_data 
@@ -14,12 +16,13 @@ def load_model():
 # Load the model
 model = load_model()
 
-# Initialize LabelEncoders
+# Initialize LabelEncoders (same as before)
+from sklearn.preprocessing import LabelEncoder
+
 le_job = LabelEncoder()
 le_marital = LabelEncoder()
 le_education = LabelEncoder()
 
-# Fit the LabelEncoders (these should be fit on the same data used during training)
 job_labels = ["admin.", "blue-collar", "entrepreneur", "housemaid", "management", "retired", 
               "self-employed", "services", "student", "technician", "unemployed", "unknown"]
 le_job.fit(job_labels)
@@ -30,10 +33,10 @@ le_marital.fit(marital_labels)
 education_labels = ["primary", "secondary", "tertiary", "unknown"]
 le_education.fit(education_labels)
 
-# Create input fields
+# Input fields
 st.title("Bank Marketing Campaign Prediction")
 
-# Input fields for the features used in the model
+# Numeric Inputs
 age = st.number_input("Age", min_value=18, max_value=100, step=1)
 balance = st.number_input("Average Yearly Balance (in euros)", min_value=0)
 day = st.number_input("Last Contact Day of Month", min_value=1, max_value=31, step=1)
@@ -43,7 +46,7 @@ pdays = st.number_input("Days Since Last Contact", min_value=-1)
 previous = st.number_input("Number of Contacts Performed Before Campaign", min_value=0)
 balance_duration_ratio = st.number_input("Balance/Duration Ratio", min_value=0.0)
 
-# Categorical inputs
+# Categorical Inputs
 job = st.selectbox("Job", job_labels)
 marital = st.selectbox("Marital Status", marital_labels)
 education = st.selectbox("Education", education_labels)
@@ -73,12 +76,12 @@ input_data = pd.DataFrame({
     f"contact_{contact}": [1],
     f"month_{month}": [1],
     f"poutcome_{poutcome}": [1],
-    f"job_{job}": [1],  # One-hot encoding for job
-    f"marital_{marital}": [1],  # One-hot encoding for marital
-    f"education_{education}": [1],  # One-hot encoding for education
+    f"job_{job}": [1],  
+    f"marital_{marital}": [1],  
+    f"education_{education}": [1],  
 })
 
-# Fill in the missing columns with zeros (because the model expects all possible encoded columns)
+# Fill missing columns
 expected_columns = ['job', 'marital', 'education', 'age', 'balance', 'day', 'duration',
                     'campaign', 'pdays', 'previous', 'balance_duration_ratio',
                     'job_blue-collar', 'job_entrepreneur', 'job_housemaid',
@@ -91,21 +94,49 @@ expected_columns = ['job', 'marital', 'education', 'age', 'balance', 'day', 'dur
                     'month_mar', 'month_may', 'month_nov', 'month_oct', 'month_sep',
                     'poutcome_other', 'poutcome_success', 'poutcome_unknown']
 
-# Add any missing columns with a default value of 0
 for col in expected_columns:
     if col not in input_data.columns:
         input_data[col] = 0
 
-# Ensure the input data has the same order as expected by the model
 input_data = input_data[expected_columns]
 
-# Debugging: Print the input data to check the format
+# Debug: Print the input data
 st.write("Input Data:", input_data)
+
+# Visualization: Histogram of Numeric Inputs
+st.subheader("Input Data Visualization")
+fig, axs = plt.subplots(2, 4, figsize=(15, 10))
+sns.histplot(input_data['age'], ax=axs[0, 0], kde=True)
+sns.histplot(input_data['balance'], ax=axs[0, 1], kde=True)
+sns.histplot(input_data['day'], ax=axs[0, 2], kde=True)
+sns.histplot(input_data['duration'], ax=axs[0, 3], kde=True)
+sns.histplot(input_data['campaign'], ax=axs[1, 0], kde=True)
+sns.histplot(input_data['pdays'], ax=axs[1, 1], kde=True)
+sns.histplot(input_data['previous'], ax=axs[1, 2], kde=True)
+sns.histplot(input_data['balance_duration_ratio'], ax=axs[1, 3], kde=True)
+
+for ax in axs.flat:
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+
+plt.tight_layout()
+st.pyplot(fig)
 
 # Prediction
 if st.button("Predict Subscription Likelihood"):
     try:
         prediction = model.predict(input_data)
-        st.write(f"The likelihood of subscription is: {'Yes' if prediction[0] == 1 else 'No'}")
+        st.subheader(f"The likelihood of subscription is: {'Yes' if prediction[0] == 1 else 'No'}")
+
+        # Visualization: Gauge or Bar for Likelihood
+        likelihood = model.predict_proba(input_data)[0][1] * 100
+        st.subheader("Subscription Likelihood")
+        fig, ax = plt.subplots(figsize=(6, 3))
+        ax.barh(["Subscription"], [likelihood], color="skyblue")
+        ax.set_xlim(0, 100)
+        ax.set_xlabel('Likelihood (%)')
+        ax.set_title(f"{likelihood:.2f}%")
+        st.pyplot(fig)
+
     except Exception as e:
         st.write(f"An error occurred: {e}")
