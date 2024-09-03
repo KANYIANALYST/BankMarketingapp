@@ -24,7 +24,7 @@ data.rename(columns={
 }, inplace=True)
 
 # Check the DataFrame structure after renaming
-st.write("### Renamed Feature Importance Data", data)
+# st.write("### Renamed Feature Importance Data", data)
 
 # Plot feature importance
 st.write("### Feature Importance Bar Chart")
