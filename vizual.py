@@ -19,20 +19,20 @@ st.write("### Feature Importance Data", data)
 # Plot feature importance
 st.write("### Feature Importance Bar Chart")
 if not data.empty:
-    # Ensure that the necessary columns exist
-    if 'feature' in data.columns and 'importance' in data.columns:
+    # Check the actual column names in your CSV file
+    if 'Name' in data.columns and 'Importance' in data.columns:
         # Plot the data
         plt.figure(figsize=(10, 6))
-        sns.barplot(x='importance', y='feature', data=data, palette='viridis')
+        sns.barplot(x='Importance', y='Name', data=data, palette='viridis')
         plt.xlabel('Importance')
         plt.ylabel('Feature')
         plt.title('Feature Importance')
         st.pyplot(plt)
     else:
-        st.error("The CSV file does not contain 'feature' and 'importance' columns.")
+        st.error("The CSV file does not contain 'Name' and 'Importance' columns.")
 else:
     st.error("The CSV file is empty or could not be loaded.")
 
 # Add a footer or additional info if necessary
 st.write("---")
-st.write("Visualization created by [Your Name](https://github.com/KANYIANALYST)")
+st.write("Visualization created by [Esther Kanyi](https://github.com/KANYIANALYST)")
