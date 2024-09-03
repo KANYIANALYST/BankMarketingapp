@@ -1,12 +1,11 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 import joblib
 from urllib.request import urlopen
+from sklearn.preprocessing import LabelEncoder
 
 # Load model
-@st.cache_data
+@st.cache_data 
 def load_model():
     url = 'https://github.com/KANYIANALYST/BankMarketingapp/raw/main/best_rf_model.pkl'
     model = joblib.load(urlopen(url))
@@ -14,6 +13,22 @@ def load_model():
 
 # Load the model
 model = load_model()
+
+# Initialize LabelEncoders
+le_job = LabelEncoder()
+le_marital = LabelEncoder()
+le_education = LabelEncoder()
+
+# Fit the LabelEncoders (these should be fit on the same data used during training)
+job_labels = ["admin.", "blue-collar", "entrepreneur", "housemaid", "management", "retired", 
+              "self-employed", "services", "student", "technician", "unemployed", "unknown"]
+le_job.fit(job_labels)
+
+marital_labels = ["married", "single", "divorced"]
+le_marital.fit(marital_labels)
+
+education_labels = ["primary", "secondary", "tertiary", "unknown"]
+le_education.fit(education_labels)
 
 # Create input fields
 st.title("Bank Marketing Campaign Prediction")
@@ -29,9 +44,9 @@ previous = st.number_input("Number of Contacts Performed Before Campaign", min_v
 balance_duration_ratio = st.number_input("Balance/Duration Ratio", min_value=0.0)
 
 # Categorical inputs
-job = st.selectbox("Job", ["admin.", "blue-collar", "entrepreneur", "housemaid", "management", "retired", "self-employed", "services", "student", "technician", "unemployed", "unknown"])
-marital = st.selectbox("Marital Status", ["married", "single", "divorced"])
-education = st.selectbox("Education", ["primary", "secondary", "tertiary", "unknown"])
+job = st.selectbox("Job", job_labels)
+marital = st.selectbox("Marital Status", marital_labels)
+education = st.selectbox("Education", education_labels)
 default_yes = st.selectbox("Has Credit in Default?", ["yes", "no"])
 housing_yes = st.selectbox("Has Housing Loan?", ["yes", "no"])
 loan_yes = st.selectbox("Has Personal Loan?", ["yes", "no"])
@@ -39,7 +54,7 @@ contact = st.selectbox("Contact Communication Type", ["telephone", "cellular", "
 month = st.selectbox("Last Contact Month", ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"])
 poutcome = st.selectbox("Outcome of Previous Campaign", ["unknown", "other", "failure", "success"])
 
-# Map inputs to match the encoded columns
+# Create a DataFrame with the input data
 input_data = pd.DataFrame({
     "age": [age],
     "balance": [balance],
@@ -49,28 +64,32 @@ input_data = pd.DataFrame({
     "pdays": [pdays],
     "previous": [previous],
     "balance_duration_ratio": [balance_duration_ratio],
-    f"job_{job}": [1],
-    f"marital_{marital}": [1],
-    f"education_{education}": [1],
+    "job": [le_job.transform([job])[0]],
+    "marital": [le_marital.transform([marital])[0]],
+    "education": [le_education.transform([education])[0]],
     "default_yes": [1 if default_yes == "yes" else 0],
     "housing_yes": [1 if housing_yes == "yes" else 0],
     "loan_yes": [1 if loan_yes == "yes" else 0],
     f"contact_{contact}": [1],
     f"month_{month}": [1],
-    f"poutcome_{poutcome}": [1]
+    f"poutcome_{poutcome}": [1],
+    f"job_{job}": [1],  # One-hot encoding for job
+    f"marital_{marital}": [1],  # One-hot encoding for marital
+    f"education_{education}": [1],  # One-hot encoding for education
 })
 
 # Fill in the missing columns with zeros (because the model expects all possible encoded columns)
-expected_columns = ['age', 'balance', 'day', 'duration', 'campaign', 'pdays', 'previous', 
-                    'balance_duration_ratio', 'job_blue-collar', 'job_entrepreneur', 
-                    'job_housemaid', 'job_management', 'job_retired', 'job_self-employed', 
-                    'job_services', 'job_student', 'job_technician', 'job_unemployed', 
-                    'job_unknown', 'marital_married', 'marital_single', 'education_secondary', 
-                    'education_tertiary', 'education_unknown', 'default_yes', 'housing_yes', 
-                    'loan_yes', 'contact_telephone', 'contact_unknown', 'month_aug', 'month_dec', 
-                    'month_feb', 'month_jan', 'month_jul', 'month_jun', 'month_mar', 'month_may', 
-                    'month_nov', 'month_oct', 'month_sep', 'poutcome_other', 'poutcome_success', 
-                    'poutcome_unknown']
+expected_columns = ['job', 'marital', 'education', 'age', 'balance', 'day', 'duration',
+                    'campaign', 'pdays', 'previous', 'balance_duration_ratio',
+                    'job_blue-collar', 'job_entrepreneur', 'job_housemaid',
+                    'job_management', 'job_retired', 'job_self-employed', 'job_services',
+                    'job_student', 'job_technician', 'job_unemployed', 'job_unknown',
+                    'marital_married', 'marital_single', 'education_secondary',
+                    'education_tertiary', 'education_unknown', 'default_yes', 'housing_yes',
+                    'loan_yes', 'contact_telephone', 'contact_unknown', 'month_aug',
+                    'month_dec', 'month_feb', 'month_jan', 'month_jul', 'month_jun',
+                    'month_mar', 'month_may', 'month_nov', 'month_oct', 'month_sep',
+                    'poutcome_other', 'poutcome_success', 'poutcome_unknown']
 
 # Add any missing columns with a default value of 0
 for col in expected_columns:
@@ -90,24 +109,3 @@ if st.button("Predict Subscription Likelihood"):
         st.write(f"The likelihood of subscription is: {'Yes' if prediction[0] == 1 else 'No'}")
     except Exception as e:
         st.write(f"An error occurred: {e}")
-
-# Visualize Feature Importance
-st.subheader("Feature Importance")
-try:
-    # Get feature importance from the model
-    feature_importance = model.feature_importances_
-
-    # Create a DataFrame for better visualization
-    importance_df = pd.DataFrame({
-        'Feature': expected_columns,
-        'Importance': feature_importance
-    }).sort_values(by='Importance', ascending=False)
-
-    # Plot feature importance
-    fig, ax = plt.subplots(figsize=(10, 8))
-    sns.barplot(x='Importance', y='Feature', data=importance_df, ax=ax)
-    ax.set_title('Feature Importance')
-    st.pyplot(fig)
-
-except AttributeError:
-    st.write("The loaded model does not support feature importance.")
