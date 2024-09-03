@@ -20,9 +20,10 @@ urls = {
 }
 
 # Create buttons and handle redirection
+st.sidebar.title("Navigate to:")
 for app_name, url in urls.items():
-    if st.button(f"Go to {app_name}"):
-        st.markdown(
+    if st.sidebar.button(f"Go to {app_name}"):
+        st.sidebar.markdown(
             f'<a href="{url}" target="_blank">Click here to open {app_name}</a>',
             unsafe_allow_html=True
         )
