@@ -1,44 +1,47 @@
 import streamlit as st
 import pandas as pd
-import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
-from urllib.request import urlopen
 
+# Set the page configuration
+st.set_page_config(page_title="Feature Importance Visualization", layout="wide")
 
-@st.cache_data
-def load_model():
-    url = 'https://github.com/KANYIANALYST/BankMarketingapp/raw/main/best_rf_model.pkl'
-    model = joblib.load(urlopen(url))
-    return model
+# Title of the app
+#st.title("Feature Importance Visualization")
 
-model = load_model()
+# Load the feature importance data
+url = "https://github.com/KANYIANALYST/BankMarketingapp/raw/main/feature_importance.csv"
+data = pd.read_csv(url)
 
-# Extract feature importances
-importances = model.feature_importances_
-features = ['job', 'marital', 'education', 'age', 'balance', 'day', 'duration',
-            'campaign', 'pdays', 'previous', 'balance_duration_ratio',
-            'job_blue-collar', 'job_entrepreneur', 'job_housemaid',
-            'job_management', 'job_retired', 'job_self-employed', 'job_services',
-            'job_student', 'job_technician', 'job_unemployed', 'job_unknown',
-            'marital_married', 'marital_single', 'education_secondary',
-            'education_tertiary', 'education_unknown', 'default_yes', 'housing_yes',
-            'loan_yes', 'contact_telephone', 'contact_unknown', 'month_aug',
-            'month_dec', 'month_feb', 'month_jan', 'month_jul', 'month_jun',
-            'month_mar', 'month_may', 'month_nov', 'month_oct', 'month_sep',
-            'poutcome_other', 'poutcome_success', 'poutcome_unknown']
+# Display the data
+st.write("### Feature Importance Data", data)
 
-# Create a DataFrame for visualization
-importance_df = pd.DataFrame({
-    'Feature': features,
-    'Importance': importances
-}).sort_values(by='Importance', ascending=False)
+# Rename columns if needed
+# Adjust these names based on actual column names in your CSV file
+data.rename(columns={
+    'existing_feature_name': 'Feature',  # Replace 'existing_feature_name' with actual column name
+    'existing_importance_name': 'Importance'  # Replace 'existing_importance_name' with actual column name
+}, inplace=True)
 
-st.title("Feature Importance Visualization")
+# Check the DataFrame structure after renaming
+# st.write("### Renamed Feature Importance Data", data)
 
-plt.figure(figsize=(10, 8))
-sns.barplot(x='Importance', y='Feature', data=importance_df)
-plt.title('Feature Importance')
-plt.xlabel('Importance')
-plt.ylabel('Feature')
-st.pyplot(plt)
+# Plot feature importance
+st.write("### Feature Importance Bar Chart")
+if not data.empty:
+    if 'Feature' in data.columns and 'Importance' in data.columns:
+        # Plot the data
+        plt.figure(figsize=(11, 10))
+        sns.barplot(x='Importance', y='Feature', data=data, palette='viridis')
+        plt.xlabel('Importance')
+        plt.ylabel('Feature')
+        plt.title('Feature Importance')
+        st.pyplot(plt)
+    else:
+        st.error("The DataFrame does not contain 'Feature' and 'Importance' columns.")
+else:
+    st.error("The CSV file is empty or could not be loaded.")
+
+# Add a footer or additional info if necessary
+st.write("---")
+st.write("Visualization created by [Esther Kanyi](https://github.com/KANYIANALYST)")
