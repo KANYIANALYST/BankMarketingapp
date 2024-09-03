@@ -31,7 +31,7 @@ st.write("### Feature Importance Bar Chart")
 if not data.empty:
     if 'Feature' in data.columns and 'Importance' in data.columns:
         # Plot the data
-        plt.figure(figsize=(10, 7))
+        plt.figure(figsize=(11, 10))
         sns.barplot(x='Importance', y='Feature', data=data, palette='viridis')
         plt.xlabel('Importance')
         plt.ylabel('Feature')
