@@ -46,4 +46,4 @@ for feature in categorical_features:
 
 # Footer or additional info if necessary
 st.write("---")
-st.write("Visualization created by [Your Name](https://github.com/KANYIANALYST)")
+st.write("Visualization created by [Esther Kanyi](https://github.com/KANYIANALYST)")
