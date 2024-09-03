@@ -14,8 +14,8 @@ import streamlit as st
 
 # Define the URLs
 urls = {
-    "Visualization (EDA)": "https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/",
-    "Fture Importance Viz": "https://another-example.com"
+    "Fture Importance Viz": "https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/",
+    "Visualization (EDA)": "https://another-example.com" 
 }
 
 # Create buttons and handle redirection
