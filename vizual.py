@@ -10,7 +10,7 @@ st.set_page_config(page_title="Feature Importance Visualization", layout="wide")
 st.title("Feature Importance Visualization")
 
 # Load the feature importance data
-url = "https://github.com/KANYIANALYST/BankMarketingapp/blob/main/feature_importance.csv"
+url = "feature_importance.csv"
 data = pd.read_csv(url)
 
 # Display the data
