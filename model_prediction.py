@@ -14,8 +14,8 @@ import streamlit as st
 
 # Define the URLs
 urls = {
-    "Fture Importance Viz": "https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/",
-    "Visualization (EDA)": "https://another-example.com" 
+    "Fture Importance Viz": "https://bankmarketingapp-4sa3h7b8sw4hnsgdo5zyzm.streamlit.app/"
+   # "Visualization (EDA)": "https://another-example.com" 
 }
 
 # Create buttons and handle redirection
@@ -134,7 +134,11 @@ st.write("Input Data:", input_data)
 # Prediction
 if st.button("Predict Subscription Likelihood"):
     try:
+        # prediction = model.predict(input_data)
+        # st.write(f"The likelihood of subscription is: {'YES' if prediction[0] == 1 else 'NO'}")
+
         prediction = model.predict(input_data)
-        st.write(f"The likelihood of subscription is: {'Yes' if prediction[0] == 1 else 'No'}")
+        result_text = f"<h2 style='font-size: 30px; color: #4CAF50;'>The likelihood of subscription is: {'YES' if prediction[0] == 1 else 'NO'}</h2>"
+        st.markdown(result_text, unsafe_allow_html=True)
     except Exception as e:
         st.write(f"An error occurred: {e}")
